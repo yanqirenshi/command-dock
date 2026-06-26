@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>command-dock demo</title>
+    <style>
+      :root {
+        --bg-primary: #f8fafc;
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f3f4f6;
+        --text-primary: #111827;
+        --text-secondary: #6b7280;
+        --border-color: #e5e7eb;
+        --accent-color: #2563eb;
+        --active-btn-bg: #e5e7eb;
+        --shadow: rgba(0, 0, 0, 0.08);
+      }
+      body {
+        margin: 0;
+        height: 100vh;
+        position: relative; /* 包含ブロック: dock はこの中で下部中央に配置される */
+        background: var(--bg-primary);
+        font-family: system-ui, sans-serif;
+      }
+      .hint { padding: 24px; color: var(--text-secondary); }
+    </style>
+  </head>
+  <body>
+    <div class="hint">
+      command-dock demo — 下部中央のボタンをクリック。<br />
+      <code>npm run build</code> で dist を作ってから、このフォルダを静的サーブして開いてください。
+    </div>
+    <command-dock id="dock"></command-dock>
+
+    <script type="module">
+      import "../dist/index.js";
+
+      let mode = "editor";
+      const dock = document.getElementById("dock");
+      dock.items = [
+        {
+          id: "file",
+          label: "F",
+          title: "File",
+          popup: [
+            { label: "New", onSelect: () => alert("new") },
+            { label: "Open", onSelect: () => alert("open") },
+          ],
+        },
+        {
+          id: "view",
+          label: "V",
+          title: "View",
+          popup: {
+            section: "Mode",
+            items: [
+              { label: "Editor", active: () => mode === "editor", onSelect: () => { mode = "editor"; dock.refresh(); } },
+              { label: "Split", active: () => mode === "split", onSelect: () => { mode = "split"; dock.refresh(); } },
+              { label: "Preview", active: () => mode === "preview", onSelect: () => { mode = "preview"; dock.refresh(); } },
+            ],
+          },
+        },
+        { id: "t", label: "T", title: "Theme", popup: [{ label: "Light" }, { label: "Dark" }] },
+      ];
+    </script>
+  </body>
+</html>
