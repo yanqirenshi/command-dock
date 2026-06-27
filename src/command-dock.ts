@@ -1,11 +1,11 @@
-import { dockStyles } from "./styles";
+import { dockStyles } from "./styles.js";
 import type {
   DockItem,
   DockSelectDetail,
   PopupContent,
   PopupGroup,
   PopupItem,
-} from "./types";
+} from "./types.js";
 
 /** PopupContent を PopupGroup[] に正規化する。 */
 function normalizePopup(content: PopupContent): PopupGroup[] {
