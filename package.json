@@ -20,9 +20,14 @@
   },
   "keywords": ["web-component", "custom-element", "dock", "toolbar", "menu", "popover"],
   "license": "MIT",
+  "author": "仁是 <yanqirenshi@gmail.com>",
+  "homepage": "https://github.com/yanqirenshi/command-dock#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yanqirenshi/command-dock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yanqirenshi/command-dock/issues"
   },
   "devDependencies": {
     "typescript": "~5.6.2"
