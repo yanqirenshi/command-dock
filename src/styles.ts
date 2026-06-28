@@ -29,6 +29,8 @@ export const dockStyles = /* css */ `
 }
 
 .circle-btn {
+  position: relative;
+  box-sizing: border-box;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -54,12 +56,56 @@ export const dockStyles = /* css */ `
   transform: translateY(-4px);
 }
 
-.circle-btn.active {
-  background: var(--dock-accent-bg, var(--dock-accent, var(--accent-color, #3b82f6)));
-  border-color: var(--dock-accent, var(--accent-color, #3b82f6));
-  color: var(--dock-accent-fg, #ffffff);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--dock-glow, rgba(59, 130, 246, 0.4));
+/* 吹き出し型トリガー: 閉時は太い縁取り(3px)・背景白。
+   縁取り色は薄いパステルブルーを常時表示する(--dock-trigger-border で上書き可)。 */
+.circle-btn.popup-trigger {
+  border-width: var(--dock-trigger-border-width, 3px);
+  border-color: var(--dock-trigger-border, #bfdbfe);
+}
+
+/* 吹き出し型トリガー: 開時は縁取りを透明(非表示)に・背景白のまま。 */
+.circle-btn.popup-trigger.active {
+  background: var(--dock-bg, var(--bg-secondary, #ffffff));
+  border-color: transparent;
+  color: var(--dock-fg, var(--text-primary, #0f172a));
+  transform: none;
+  box-shadow: 0 4px 12px var(--dock-shadow, var(--shadow, rgba(0, 0, 0, 0.12)));
+}
+
+/* 即アクション型: 無効・実行中 */
+.circle-btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.circle-btn:disabled:hover {
+  background: var(--dock-bg, var(--bg-secondary, #ffffff));
+  border-color: var(--dock-border, var(--border-color, #e5e7eb));
+  color: var(--dock-fg, var(--text-primary, #0f172a));
+  transform: none;
+}
+
+/* busy: onClick の Promise を待つ間。ラベルを隠してスピナーを重ねる。 */
+.circle-btn.busy {
+  color: transparent;
+  opacity: 1;
+}
+
+.circle-btn.busy::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--dock-accent, var(--accent-color, #3b82f6));
+  border-top-color: transparent;
+  animation: dock-spin 0.6s linear infinite;
+}
+
+@keyframes dock-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ポップオーバー(吹き出し) */

@@ -30,21 +30,57 @@ export interface PopupGroup {
 /** popup に渡せる形。フラットな項目配列でもグループでもよい。 */
 export type PopupContent = PopupItem[] | PopupGroup | PopupGroup[];
 
-/** dock 上の円形トリガー 1 個と、その上に出るポップオーバー。 */
-export interface DockItem {
+/** dock 上の円形トリガー全種に共通の属性。 */
+export interface DockItemBase {
   /** 一意な ID(open()/イベントで使う)。 */
   id: string;
   /** ボタン面のラベル。文字("F" など)でも SVG/HTML 文字列でも可。 */
   label: string;
   /** ネイティブ title 属性。 */
   title?: string;
+}
+
+/**
+ * 吹き出し型トリガー。クリックでポップオーバーを開く(単一オープン)。
+ * `popup` を持つことが、即アクション型との判別子になる。
+ */
+export interface PopupDockItem extends DockItemBase {
   /** ポップオーバーの中身。 */
   popup: PopupContent;
 }
+
+/**
+ * 即アクション型トリガー。クリックで `onClick` を即実行する(吹き出しは出さない)。
+ * `onClick` を持つことが、吹き出し型との判別子になる。
+ */
+export interface ActionDockItem extends DockItemBase {
+  /**
+   * クリック時に実行する処理。Promise を返すと、その解決(または reject)まで
+   * ボタンを自動で disabled + busy 表示にする(例: リフレッシュ中の二重実行防止)。
+   */
+  onClick: (ctx: { dockId: string }) => void | Promise<void>;
+  /**
+   * 無効化状態。真偽値、または再評価する述語。述語にしておくと外部状態の変化を
+   * `refresh()` で反映できる。busy 中(onClick の実行中)は値に関わらず無効化される。
+   */
+  disabled?: boolean | (() => boolean);
+}
+
+/**
+ * dock 上の円形トリガー 1 個。
+ * `popup` を持てば吹き出し型、`onClick` を持てば即アクション型(判別ユニオン)。
+ */
+export type DockItem = PopupDockItem | ActionDockItem;
 
 /** `select` カスタムイベントの detail。 */
 export interface DockSelectDetail {
   dockId: string;
   index: number;
+  label: string;
+}
+
+/** `action` カスタムイベントの detail(即アクション型のクリック時に発火)。 */
+export interface DockActionDetail {
+  dockId: string;
   label: string;
 }

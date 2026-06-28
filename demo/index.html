@@ -29,7 +29,8 @@
   <body>
     <div class="hint">
       command-dock demo — 下部中央のボタンをクリック。<br />
-      <code>npm run build</code> で dist を作ってから、このフォルダを静的サーブして開いてください。
+      R = 即アクション型(クリックで実行、実行中はスピナー)/ F・V・T = 吹き出し型。<br />
+      <span id="status">まだ refresh していません</span>
     </div>
     <command-dock id="dock"></command-dock>
 
@@ -37,8 +38,21 @@
       import "../dist/index.js";
 
       let mode = "editor";
+      let count = 0;
       const dock = document.getElementById("dock");
       dock.items = [
+        {
+          // 即アクション型: クリックで即実行。onClick が Promise を返すので
+          // 解決まで自動で disabled + スピナー表示になる。
+          id: "refresh",
+          label: "R",
+          title: "Refresh",
+          onClick: async () => {
+            await new Promise((r) => setTimeout(r, 1200)); // 擬似データ取得
+            count += 1;
+            document.getElementById("status").textContent = `refreshed ${count} 回`;
+          },
+        },
         {
           id: "file",
           label: "F",
