@@ -1,9 +1,11 @@
 {
   "name": "command-dock",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic bottom-center command dock Web Component (circular triggers + popovers, single-open / click-outside behavior, CSS-variable theming).",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,12 +15,22 @@
       "import": "./dist/index.js"
     }
   },
-  "sideEffects": ["./dist/index.js", "./dist/command-dock.js"],
+  "sideEffects": [
+    "./dist/index.js",
+    "./dist/command-dock.js"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepare": "tsc -p tsconfig.json"
   },
-  "keywords": ["web-component", "custom-element", "dock", "toolbar", "menu", "popover"],
+  "keywords": [
+    "web-component",
+    "custom-element",
+    "dock",
+    "toolbar",
+    "menu",
+    "popover"
+  ],
   "license": "MIT",
   "author": "仁是 <yanqirenshi@gmail.com>",
   "homepage": "https://github.com/yanqirenshi/command-dock#readme",
